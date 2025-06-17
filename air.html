@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Хочу в эфир!</title></head>
+<body>
+  <h1>Хочешь попасть в эфир? Напиши нам!</h1>
+  <form id="airForm">
+    <textarea name="text" rows="4" cols="40" placeholder="Ваше сообщение"></textarea><br>
+    <button type="submit">Отправить</button>
+  </form>
+  <p id="status"></p>
+
+  <script>
+    document.getElementById('airForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const text = e.target.text.value.trim();
+      if (!text) return;
+      const res = await fetch('/send', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ text })
+      });
+      document.getElementById('status').textContent =
+        res.ok ? '🚀 Ваше сообщение отправлено!' : '❌ Ошибка отправки.';
+      if (res.ok) e.target.text.value = '';
+    });
+  </script>
+</body>
+</html>
