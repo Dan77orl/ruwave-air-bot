@@ -1,8 +1,13 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const path = require('path');
 const app = express();
 app.use(express.json());
 
+// СТАТИКА (доступ к HTML-файлу)
+app.use(express.static(path.join(__dirname)));
+
+// TELEGRAM
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
 
@@ -25,5 +30,5 @@ app.post('/send', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
